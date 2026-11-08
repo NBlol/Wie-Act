@@ -1,0 +1,30 @@
+flowchart LR
+    subgraph Client["Learner / Teacher browser"]
+        UI["React 19 + TypeScript + Tailwind SPA<br/>EN · FR · AR · Darija (RTL)"]
+    end
+    subgraph Edge["Frontend container (nginx)"]
+        NG["Static SPA + /api reverse proxy"]
+    end
+    subgraph API["Backend container — Python / FastAPI"]
+        AUTH["Auth (JWT, scrypt)"]
+        TUT["Tutor · Diagnostic"]
+        QZ["Quizzes · Roadmaps · Notes"]
+        RM["Rooms + AI moderator"]
+        DOC["Documents (RAG)"]
+        AN["Analytics · Gamification · Teacher"]
+        ROUTER["ModelRouter<br/>routing table · cache · queue<br/>retries · circuit breaker · fallback"]
+        BM25["BM25 retrieval<br/>(local, no model call)"]
+    end
+    subgraph Data["PostgreSQL 16"]
+        DB[("users · conversations · quizzes<br/>rooms · chunks · events<br/>ai_cache · ai_calls")]
+    end
+    subgraph Platform["Challenge inference platform"]
+        SMALL["Compact / fast model"]
+        LARGE["Large / capable model"]
+    end
+    UI -->|HTTPS JSON| NG --> AUTH & TUT & QZ & RM & DOC & AN
+    TUT & QZ & RM & DOC --> ROUTER
+    TUT & QZ & DOC --> BM25
+    ROUTER -->|classification · extraction<br/>short writing| SMALL
+    ROUTER -->|reasoning · synthesis<br/>planning · polished writing| LARGE
+    AUTH & TUT & QZ & RM & DOC & AN & ROUTER & BM25 --> DB

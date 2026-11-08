@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant L as Learner
+    participant UI as React UI (staged progress)
+    participant API as Backend
+    participant C as Compact model
+    participant G as Large model
+    L->>UI: "I don't understand this exercise…"
+    UI->>API: POST /messages (mode=guided)
+    Note over UI: stage 1/4 "Understanding your question"
+    API->>C: triage → {language, intent, confusion, complexity}
+    Note over UI: stage 2/4 "Searching your documents" (BM25, no model)
+    API->>API: hint policy (level 0→1→2), style & level from profile
+    Note over UI: stage 3/4 "Thinking…" (large only if needed)
+    alt complexity low & ≤2 passages
+        API->>C: tutor_answer (hint first, adapted to learning style, in learner's language)
+    else complexity high / full solution / synthesis
+        API->>G: tutor_answer
+    end
+    Note over UI: stage 4/4 "Formatting"
+    API-->>UI: answer_md + guiding question + next step + sources + ai metadata
+    UI-->>L: hint · "Reveal full answer" button · tier badge · fallback notice if any

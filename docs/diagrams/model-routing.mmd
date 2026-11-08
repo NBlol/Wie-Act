@@ -1,0 +1,22 @@
+flowchart TD
+    REQ["AI step requested<br/>(task + inputs)"] --> TABLE{"Routing table<br/>which category?"}
+    TABLE -->|compact tasks| C0["triage · grading · feedback<br/>nudges · profile summary"]
+    TABLE -->|large tasks| L0["quiz generation · roadmap · notes<br/>explanation check · summary"]
+    TABLE -->|dynamic| DYN{"complexity high?<br/>≥3 passages? full solution?"}
+    DYN -->|no| C0
+    DYN -->|yes| L0
+    C0 & L0 --> CACHE{"Equivalent request<br/>already answered?"}
+    CACHE -->|hit| OUT["Response + ai metadata<br/>(tier, cached, fallback, notice)"]
+    CACHE -->|miss, compact| CALLC["Call compact model<br/>retry w/ back-off"]
+    CACHE -->|miss, large| BRK{"Large breaker open?"}
+    BRK -->|yes| FB["Fallback → compact<br/>+ notice to learner"]
+    BRK -->|no| Q{"Queue slot<br/>within max wait?"}
+    Q -->|no| FB
+    Q -->|yes| CALLL["Call large model<br/>retry w/ back-off, honour Retry-After"]
+    CALLL -->|429 / 5xx / timeout| FB
+    FB --> CALLC
+    CALLL -->|ok| STORE["Parse JSON · store in cache · log ai_calls"]
+    CALLC -->|ok| STORE
+    CALLC -->|all tiers down| OFF["Offline generators<br/>(rules / extractive) — labelled"]
+    STORE --> OUT
+    OFF --> OUT

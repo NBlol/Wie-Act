@@ -1,0 +1,22 @@
+flowchart TB
+    UI["<b>React 19 + TypeScript + Tailwind SPA</b><br/>EN · FR · AR · Darija (RTL) · staged progress · status banner"]
+    NG["nginx — static SPA + /api reverse proxy"]
+    subgraph API["Python API (FastAPI conventions)"]
+        direction LR
+        SVC["Services<br/>auth · tutor · diagnostic · quizzes<br/>rooms + moderator · roadmaps · notes<br/>analytics · gamification · teacher"]
+        ROUTER["<b>ModelRouter</b><br/>routing table · cache · queue<br/>retries · circuit breaker · fallback"]
+        BM25["BM25 retrieval<br/>(local, no model call)"]
+    end
+    DB[("PostgreSQL 16<br/>18 tables")]
+    subgraph PLATFORM["Challenge inference platform"]
+        direction LR
+        SMALL["Compact / fast model<br/>classification · grading · short writing"]
+        LARGE["Large / capable model<br/>reasoning · synthesis · planning"]
+    end
+    UI --> NG --> SVC
+    SVC --> ROUTER
+    SVC --> BM25
+    SVC --> DB
+    ROUTER --> DB
+    ROUTER --> SMALL
+    ROUTER --> LARGE

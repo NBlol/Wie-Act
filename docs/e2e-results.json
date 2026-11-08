@@ -1,0 +1,103 @@
+{
+  "base": "http://127.0.0.1:5173",
+  "passed": 15,
+  "total": 15,
+  "results": [
+    {
+      "flow": "landing renders",
+      "ok": true,
+      "ms": 324
+    },
+    {
+      "flow": "register through the UI",
+      "ok": true,
+      "ms": 639
+    },
+    {
+      "flow": "onboarding diagnostic",
+      "ok": true,
+      "ms": 7009
+    },
+    {
+      "flow": "dashboard",
+      "ok": true,
+      "ms": 1398
+    },
+    {
+      "flow": "upload document + ask (RAG)",
+      "ok": true,
+      "ms": 491
+    },
+    {
+      "flow": "tutor: guided hint, then reveal",
+      "ok": true,
+      "ms": 533
+    },
+    {
+      "flow": "quiz: generate, answer, submit",
+      "ok": true,
+      "ms": 2692
+    },
+    {
+      "flow": "room: create, chat, moderator nudge, check explanation",
+      "ok": true,
+      "ms": 35662
+    },
+    {
+      "flow": "roadmap: create and tick an activity",
+      "ok": true,
+      "ms": 1036
+    },
+    {
+      "flow": "notes from document",
+      "ok": true,
+      "ms": 1032
+    },
+    {
+      "flow": "analytics",
+      "ok": true,
+      "ms": 1054
+    },
+    {
+      "flow": "settings in Arabic (RTL) + Darija",
+      "ok": true,
+      "ms": 8643
+    },
+    {
+      "flow": "teacher dashboard (seeded demo account)",
+      "ok": true,
+      "ms": 2757
+    },
+    {
+      "flow": "seeded room with unbalanced participation (Amal)",
+      "ok": true,
+      "ms": 4766
+    },
+    {
+      "flow": "mobile viewport (tutor)",
+      "ok": true,
+      "ms": 2809
+    }
+  ],
+  "page_errors": [],
+  "ai_status": {
+    "provider_mode": "offline",
+    "compact_model": "compact-model",
+    "large_model": "large-model",
+    "large_available": false,
+    "large_breaker_open_until": null,
+    "queue_depth": 0,
+    "queue_capacity": 2,
+    "stats": {
+      "calls_total": 19,
+      "calls_compact": 0,
+      "calls_large": 0,
+      "calls_offline": 19,
+      "cache_hits": 0,
+      "fallbacks": 19,
+      "errors": 0,
+      "avg_latency_ms_compact": 0,
+      "avg_latency_ms_large": 0
+    }
+  }
+}

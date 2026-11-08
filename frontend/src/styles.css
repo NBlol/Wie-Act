@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Noto Sans Arabic", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-paper: #f7f6fd;
+  --color-ink: #1d1a3b;
+  --color-ink-soft: #4b4870;
+  --color-ink-muted: #7b789a;
+  --color-line: #e6e3f5;
+
+  --color-brand-50: #eeebff;
+  --color-brand-100: #ded9ff;
+  --color-brand-200: #c3bbff;
+  --color-brand-300: #a497fb;
+  --color-brand-400: #8777f5;
+  --color-brand-500: #7c6df2;
+  --color-brand-600: #5b4be8;
+  --color-brand-700: #4636c7;
+  --color-brand-800: #352a99;
+  --color-brand-900: #241c66;
+
+  --color-mint-50: #edfcf6;
+  --color-mint-100: #d9f8ee;
+  --color-mint-200: #aeeedb;
+  --color-mint-300: #7fe3c6;
+  --color-mint-400: #4edbb3;
+  --color-mint-500: #2fd4a6;
+  --color-mint-600: #19b78c;
+  --color-mint-700: #148f6f;
+
+  --color-amber-50: #fff7e8;
+  --color-amber-100: #ffedc7;
+  --color-amber-400: #f7b955;
+  --color-amber-500: #f5a524;
+  --color-amber-600: #d98a0f;
+
+  --color-rose-50: #fff0f1;
+  --color-rose-500: #e5484d;
+  --color-rose-600: #c93a3f;
+
+  --radius-xl: 0.9rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+
+  --shadow-soft: 0 1px 2px rgba(29, 26, 59, 0.04), 0 8px 24px -12px rgba(91, 75, 232, 0.18);
+  --shadow-lift: 0 2px 4px rgba(29, 26, 59, 0.05), 0 18px 40px -16px rgba(91, 75, 232, 0.28);
+
+  --animate-pulse-soft: pulse-soft 1.6s ease-in-out infinite;
+  --animate-rise: rise 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-dots: dots 1.2s steps(4, end) infinite;
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes dots {
+    to { clip-path: inset(0 -1ch 0 0); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  [dir="rtl"] body {
+    letter-spacing: 0;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--color-brand-100);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-2xl border border-line bg-white shadow-soft;
+  }
+  .panel-elevated {
+    @apply rounded-3xl border border-brand-100 bg-white shadow-lift;
+  }
+  .surface-brand {
+    background: linear-gradient(135deg, #5b4be8 0%, #7c6df2 55%, #4636c7 100%);
+  }
+  .surface-glow {
+    background:
+      radial-gradient(1200px 500px at 15% -10%, rgba(124, 109, 242, 0.18), transparent 60%),
+      radial-gradient(900px 400px at 100% 0%, rgba(47, 212, 166, 0.16), transparent 55%),
+      var(--color-paper);
+  }
+  .display {
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    font-weight: 700;
+  }
+  .prose-md {
+    @apply text-[15px] leading-relaxed text-ink;
+  }
+  .prose-md h1, .prose-md h2, .prose-md h3 {
+    @apply mt-4 mb-2 font-semibold text-ink;
+  }
+  .prose-md h1 { @apply text-xl; }
+  .prose-md h2 { @apply text-lg; }
+  .prose-md h3 { @apply text-base; }
+  .prose-md p { @apply my-2; }
+  .prose-md ul { @apply my-2 list-disc ps-5; }
+  .prose-md ol { @apply my-2 list-decimal ps-5; }
+  .prose-md li { @apply my-0.5; }
+  .prose-md code { @apply rounded bg-brand-50 px-1 py-0.5 font-mono text-[13px] text-brand-800; }
+  .prose-md pre { @apply my-3 overflow-x-auto rounded-xl bg-ink p-3 font-mono text-[13px] leading-relaxed text-white; }
+  .prose-md pre code { @apply bg-transparent p-0 text-white; }
+  .prose-md a { @apply text-brand-700 underline decoration-brand-300 underline-offset-2; }
+  .prose-md blockquote { @apply my-2 border-s-4 border-brand-200 ps-3 text-ink-soft; }
+  .prose-md strong { @apply font-semibold; }
+  .thinking-dots::after {
+    content: "…";
+    display: inline-block;
+    width: 1.2ch;
+    overflow: hidden;
+    vertical-align: bottom;
+    animation: var(--animate-dots);
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brand-200) transparent;
+  }
+  .card-flip {
+    transform-style: preserve-3d;
+    transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .card-flip.is-flipped {
+    transform: rotateY(180deg);
+  }
+  .card-face {
+    backface-visibility: hidden;
+  }
+  .card-face-back {
+    transform: rotateY(180deg);
+  }
+}

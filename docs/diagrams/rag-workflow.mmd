@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant L as Learner
+    participant API as Backend
+    participant X as Extract & chunk
+    participant I as BM25 index
+    participant R as ModelRouter
+    participant M as Compact / Large model
+    L->>API: Upload PDF / DOCX / TXT / MD
+    API->>X: extract text per page, sentence-aware chunks (~700 chars, overlap)
+    X-->>API: chunks (page, idx, text) are stored, file bytes discarded
+    L->>API: Ask a question (tutor or document page)
+    API->>I: BM25 search (Arabic/French/English tokenizer)
+    I-->>API: top-k passages with scores
+    API->>R: rag_answer(question, passages)
+    R->>R: tier = compact if 1 high-score passage & short question, else large
+    R->>M: prompt = system rules + numbered passages + question (cache checked first)
+    M-->>R: JSON {answer_md with [n] citations, used_sources}
+    R-->>API: answer + ai metadata
+    API-->>L: answer, cited passages (page + excerpt), tier badge, notice if degraded
